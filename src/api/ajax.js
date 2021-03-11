@@ -14,5 +14,5 @@ export default function ajax(url,data={},type ='GET'){
     }
 }
 
-ajax('/login', {username:'Tom', password:'12345'},'POST').then()
-ajax('/manage/user/add', {username:'Tom', password:'12345', phone:'12321334123'})
+//ajax('/login', {username:'Tom', password:'12345'},'POST').then();
+//ajax('/manage/user/add', {username:'Tom', password:'12345', phone:'12321334123'},'POST').then();
