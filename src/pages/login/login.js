@@ -1,23 +1,39 @@
-import React, {Component} from 'react';
+import React, {useContext, useState} from 'react';
 import {Form,  Input, Button, Checkbox, } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less';
 import logo  from '../../assets/images/logo.jpg';
+import {AuthContext }from "../../context/authContext";
+import { Redirect } from "react-router-dom";
 
 
+const LoginPage = props => {
+    const context = useContext(AuthContext)
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+  
+    const login = () => {
+      context.authenticate(userName, password);
+    };
 
-export default class Login extends Component {
-  onFinish = (values) => {
-    console.log('Submit the login ajax request', values);
-  };
+    const onFinish = async () => {
+     context.authenticate(userName,password)
+    };
+    // const validatePwd = (value) => {
+    //   // //console.log(value)
+    //   if (!value) {
+    //     message.info("Wrong username or password!");
+  
+    //   } else {
+    //     message.info("User login is successful!"); //验证通过
+    //   }
+    // };
 
-  onFinishFailed = (errorInfo) => {
-    console.log('Verification failed!',errorInfo);
-  };
- 
+    const { from } = props.location.state || { from: { pathname: "/" } };
 
-
-    render(){
+    if (context.isAuthenticated === true) {
+      return <Redirect to={from} />;
+    }
    
         return(
             <div className="login">
@@ -26,7 +42,7 @@ export default class Login extends Component {
                     <h1>Enterprise Management System</h1>
                 </header>
                 <section className="login-content">
-                  <h2>User Login</h2>
+                  <h2>Login</h2>
 
                   <Form 
                     name="normal_login"
@@ -34,28 +50,31 @@ export default class Login extends Component {
                     initialValues={{
                       remember: true,
                     }}  
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
+                    onFinish={onFinish}
+              
                   
                   >
                     <Form.Item 
                       name="username"
                       rules={[
                         {required: true, message: 'Please input your Username!',},
-                        { min:4, message: 'User name at least four digits!',},
+                        { min:2, message: 'User name at least two digits!',},
                         { max:12, message: 'User name up to 12 digits!',},
                         { pattern: /^[a-zA-Z0-9_]+$/, message: 'Username must be in English, composed of numbers or underscores!',},
                       ]} 
                     >
-                      <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                      <Input prefix={<UserOutlined className="site-form-item-icon" />}  onChange={e => {setUserName(e.target.value);}} placeholder="Username" />
                     </Form.Item>
                     <Form.Item 
                       name="password" 
                       rules={[
                         { required: true, message: 'Please input your Password!',},
-                        { min:4, message: 'User name at least four digits!',},
-                        { max:12, message: 'User name up to 12 digits!',},
-                        { pattern: /^[a-zA-Z0-9_]+$/, message: 'Username must be in English, composed of numbers or underscores!',},
+                        { min:2, message: 'Password at least two digits!',},
+                        { max:12, message: 'Password up to 12 digits!',},
+                        { pattern: /^[a-zA-Z0-9_]+$/, message: 'Password must be in English, composed of numbers or underscores!',},
+                        {
+                         // validator: validatePwd,
+                        },
                      
                       ]} 
                     >
@@ -63,6 +82,7 @@ export default class Login extends Component {
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
                         placeholder="Password"
+                        onChange={e => {setPassword(e.target.value);}}
                       /> 
                     </Form.Item>
 
@@ -76,10 +96,10 @@ export default class Login extends Component {
                     </Form.Item>
 
                     <Form.Item>
-                      <Button type="primary" htmlType="submit" className="login-form-button">
+                      <Button type="primary" htmlType="submit" className="login-form-button" onCilck={login}>
                         Log in
                       </Button>
-                      <a href="true">register now!</a>
+          
                     </Form.Item>
                   </Form>
 
@@ -87,6 +107,6 @@ export default class Login extends Component {
                 </section>
             </div>
         )
-           }
-}
+    }
+    export default LoginPage;
 
