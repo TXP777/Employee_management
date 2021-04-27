@@ -3,7 +3,6 @@ import {Redirect,Route,Switch} from 'react-router-dom';
 import { Layout } from 'antd';
 import LeftNav from '../../components/left-nav';
 import Header from '../../components/header'; 
-
 import Home from '../home/home';
 import Attendance from '../attendance/attendance';
 import Employee from '../employee/employee';
@@ -39,7 +38,7 @@ export default class Admin extends Component{
         
               
               </Content>
-              <Footer>Footer</Footer>
+              <Footer>Enterprise employee management system based on React+Antd</Footer>
             </Layout>
           </Layout>
         )

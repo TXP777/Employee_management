@@ -30,7 +30,8 @@ const AuthContextProvider = (props) => {
       value={{
         isAuthenticated,
         authenticate,
-        userName
+        userName,
+        authToken
       }}
     >
       {props.children}
