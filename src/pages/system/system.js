@@ -7,17 +7,18 @@ import LinkButton from '../../components/link-button/index';
 import UserForm from '../system/user-form';
 
 export default class System extends Component {
-  state = {
-    users:[],
-    user:{},
-    searchText: '',
-    searchedColumn: '',
-    showStatus: 0,
-    
-  };
+
   constructor(props) {
     super(props);
     this.us = React.createRef();
+    this.state = {
+      users:[],
+      user:{},
+      searchText: '',
+      searchedColumn: '',
+      showStatus: 0,
+      
+    };
   }
 
   onRow= (user) => {
@@ -117,7 +118,7 @@ export default class System extends Component {
       },
     });
   };
-  updateUser = async () => {
+  updateUsers = async () => {
     //collect user
     let user = this.us.current.updateUser();
     user.createtime = Date.now();
@@ -220,7 +221,7 @@ handleCancel = () => {
                    <Modal
           title={this.state.user.user_id ? "Edit User" : "Create User"}
           visible={showStatus === 1}
-          onOk={this.updateUser}
+          onOk={this.updateUsers}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >

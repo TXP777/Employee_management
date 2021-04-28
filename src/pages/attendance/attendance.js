@@ -2,25 +2,23 @@ import React, {Component} from 'react';
 import {Card,Button,Table,Input, Space,Modal,message} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import {reqGetAttendance,reqAddAttendance} from '../../api/index';
+import {reqGetAttendance,reqAddAttendance,reqDeleteAttendance} from '../../api/index';
 import AttendanceForm from '../attendance/attendance-form';
+import LinkButton from '../../components/link-button/index';
 
 
 
 export default class Attendance extends Component{
-
-    
-      state = {
+    constructor(props) {
+      super(props);
+      this.att = React.createRef();
+      this.state= {
         attendances:[],//List of all recordings
         attendance:{},//List of one recording
         searchText: '',//Enter text in search box
         searchedColumn: '',//Searched column
         showStatus: 0,//Whether to display the page
     };
-
-    constructor(props) {
-      super(props);
-      this.att = React.createRef();
     }
 
     initColumns = () => {
@@ -69,6 +67,12 @@ export default class Attendance extends Component{
                 ...this.getColumnSearchProps('numberoflateandleaveearly'),
               
             },
+            {
+              title: "Operation",
+              render: (attendance) => (
+                  <LinkButton onClick={() => this.deleteAttendance(attendance)}>Delete</LinkButton>
+              ),
+            },
             ]}
 
     
@@ -84,7 +88,7 @@ export default class Attendance extends Component{
             })
         }
     }   
-    addAttendance = async () => {
+    addAttendances = async () => {
         //Collect the data
         let attendance = this.att.current.addAttendance();
         if (this.state.attendance.attendance_id) {
@@ -95,13 +99,29 @@ export default class Attendance extends Component{
         // Update list display
         if (result) {
             message.success(`The record is added successfully!`);
-            this.getUsers();
+            this.getAttendance();
             this.setState({ showStatus: 0 });
           } else {
             message.error(`Record modification failed!`);
           }
           // //console.log(user);
         };
+        deleteAttendance = (attendance) => {
+          Modal.confirm({
+            title: `Are you sure to delete ${attendance.employee_name}?`,
+            onOk: async () => {
+              console.log(attendance.employee_id);
+              const result = await reqDeleteAttendance(attendance.employee_id);
+              if (result) {
+                 message.success("The recording deleted successfully!!");
+                 this.getAttendance();
+                 this.setState({ showStatus: 0 });
+              } else {
+                message.error("Failed to delete this recording!!");
+              }
+            },
+          });
+          };
    showUpdate = (attendance) => {
      this.setState({attendance:attendance});
      this.setState({ showStatus: 1 });
@@ -204,7 +224,7 @@ export default class Attendance extends Component{
                               <Modal
            title={this.state.attendance.attendance_id ? "Add New Recording" : "Add new Employee"}
           visible={showStatus === 1}
-          onOk={this.reqAddAttendance}
+          onOk={this.addAttendances}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >

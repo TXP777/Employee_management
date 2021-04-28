@@ -9,17 +9,16 @@ import LinkButton from '../../components/link-button/index';
 
 export default class Employee extends Component{
 
-      state = {
+    constructor(props) {
+      super(props);
+      this.em = React.createRef();
+      this.state = {
         employees:[],//List of all employees
         employee:{},//Selected employees
         searchText: '',//Enter text in search box
         searchedColumn: '',//Searched column
         showStatus: 0,//Whether to display the page
     };
-
-    constructor(props) {
-      super(props);
-      this.em = React.createRef();
     }
 
     initColumns = () => {
@@ -80,7 +79,8 @@ export default class Employee extends Component{
                 employees
             })
         }
-    }    
+    } 
+    
 
     // delete employee
     deleteEmployee = (employee) => {
@@ -100,7 +100,7 @@ export default class Employee extends Component{
     });
     };
     //update employee information
-  updateEmployee = async () => {
+  updateEmployees = async () => {
     let employee = this.em.current.updateEmployee();
  
     if (this.state.employee.employee_id) {
@@ -224,7 +224,7 @@ export default class Employee extends Component{
         <Modal
           title={this.state.employee.employee_id ? "Edit Employee's Information" : "Create new Employee"}
           visible={showStatus === 1}
-          onOk={this.updateEmployee}
+          onOk={this.updateEmployees}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >
