@@ -20,6 +20,14 @@ export default class System extends Component {
     this.us = React.createRef();
   }
 
+  onRow= (user) => {
+    return {
+      onClick: (event) => {
+        this.setState({ user });
+      }, 
+    };
+  }
+
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -110,21 +118,21 @@ export default class System extends Component {
     });
   };
   updateUser = async () => {
-    //收集数据
+    //collect user
     let user = this.us.current.updateUser();
     user.createtime = Date.now();
     if (this.state.user.user_id) {
       user.user_id = this.state.user.user_id;
     }
-    //   2.提交添加的请求
+    //submit a request
     const result = await reqUpdateUser(user.user_id);
-    // 3.更新列表显示
+    //update data
     if (result) {
-      message.success(`${this.state.user.user_id?'修改':'添加'}角色成功`);
+      message.success(`The information has been modified successfully!`);
       this.getUsers();
       this.setState({ showStatus: 0 });
     } else {
-      message.error(`${this.state.user.user_id?'修改':'添加'}角色失败`);
+      message.error(`The information modification failed!`);
     }
     // //console.log(user);
   };
@@ -146,16 +154,12 @@ handleCancel = () => {
 
 
   render(){
-    const{users,showStatus} = this.state;
+    const{users,user,showStatus} = this.state;
     const title = (
-      <Button
-        type="primary"
-        onClick={() => {
-          this.setState({ showStatus: 1, user: {} });
-        }}
-      >
-        Create User
-      </Button>
+      <span>
+      <Button type="primary" onClick={() => {this.setState({ showStatus: 1, user: {} });}}>Create User</Button> &nbsp;&nbsp;
+      <Button type="primary" disabled={!user.user_id}>Set User Permissions</Button>
+      </span>
     );
     const columns = [
       {
@@ -206,13 +210,15 @@ handleCancel = () => {
            <Card title={title}>
            <Table 
            rowKey="user_id"
-           pagination={{pageSize: 3,}}
+           pagination={{pageSize: 5,}}
            columns={columns} 
            dataSource={users} 
+           rowSelection={{ type: "radio", selectedRowKeys: [user.user_id],onSelect:(user)=>{this.setState({user:user})} }} //Set radio
+          onRow={this.onRow}
            bordered
            />
                    <Modal
-          title={this.state.user.user_id ? "修改用户" : "添加用户"}
+          title={this.state.user.user_id ? "Edit User" : "Create User"}
           visible={showStatus === 1}
           onOk={this.updateUser}
           onCancel={this.handleCancel}

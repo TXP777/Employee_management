@@ -14,62 +14,46 @@ export default class UserForm extends PureComponent {
     this.setState(values);
   };
   updateUser = () => {
-    //收集数据
+    //collect data
     const user = this.state;
     // console.log(user);
-    //   2.提交添加的请求
+    // update user
     return user;
-    // 3.更新列表显示
+  
   };
   render() {
     const formItemLayout = {
-      labelCol: { span: 4 }, //左侧label宽度
-      wrapperCol: { span: 10 }, //右侧包裹输入框宽度
+      labelCol: { span: 4 }, 
+      wrapperCol: { span: 10 }, 
     };
     const user = this.props.user
-    // console.log(roles)
+    // console.log()
     return (
       <Form {...formItemLayout} onValuesChange={this.onValuesChange}>
         <Item
-          label="用户名"
+          label="Username"
           name="username"
-          rules={[{ required: true, message: "用户名必须输入!" }]}
+          rules={[{ required: true, message: "The username must be enter!" }]}
           initialValue={user.username}
         >
-          <Input placeholder="请输入用户名"></Input>
+          <Input placeholder="Please enter the username"></Input>
         </Item>
-        {
-            user._id?null:<Item
-            label="密码"
+        <Item
+            label="Password"
             name="password"
-            rules={[{ required: true, message: "密码必须输入!" }]}
+            rules={[{ required: true, message: "The password must be enter!" }]}
             initialValue={user.password}
           >
-            <Input type="password" placeholder="请输入密码"></Input>
+            <Input type="password" placeholder="Please enter your password"></Input>
           </Item>
-        }
         
         <Item
-          label="手机号"
-          name="phone"
-          rules={[{ required: true, message: "手机号必须输入!" }]}
-          initialValue={user.phone}
+          label="Employee_id"
+          name="employee_id"
+          rules={[{ required: true, message: "The employee_id must be enter!" }]}
+          initialValue={user.employee_id}
         >
-          <Input
-            //   type='password'
-            placeholder="请输入手机号"
-          ></Input>
-        </Item>
-        <Item
-          label="邮箱"
-          name="email"
-          rules={[{ required: true, message: "邮箱必须输入!" }]}
-          initialValue={user.email}
-        >
-          <Input
-            //   type='password'
-            placeholder="请输入邮箱"
-          ></Input>
+          <Input placeholder="Please enter your employee_id"></Input>
         </Item>
     
       </Form>

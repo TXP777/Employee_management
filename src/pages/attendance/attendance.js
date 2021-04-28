@@ -11,7 +11,8 @@ export default class Attendance extends Component{
 
     
       state = {
-        attendance:[],//List of all recordings
+        attendances:[],//List of all recordings
+        attendance:{},//List of one recording
         searchText: '',//Enter text in search box
         searchedColumn: '',//Searched column
         showStatus: 0,//Whether to display the page
@@ -19,8 +20,56 @@ export default class Attendance extends Component{
 
     constructor(props) {
       super(props);
-      this.us = React.createRef();
+      this.att = React.createRef();
     }
+
+    initColumns = () => {
+        this.columns = [
+            {
+                title:'Attendance_id',
+                dataIndex:'attendance_id',
+                key:'attendance_id',
+                ...this.getColumnSearchProps('attendance_id'),
+            },
+            {
+                title:'Employee_id',
+                dataIndex:'employee_id',
+                key:'employee_id',
+                ...this.getColumnSearchProps('employee_id'),
+            },
+            {
+                title:'Employee_name',
+                dataIndex:'employee_name',
+                key:'employee_name',
+                ...this.getColumnSearchProps('employee_name'),
+            },
+            {
+                title:'Department_id',
+                dataIndex:'department_id',
+                key:'department_id',
+                ...this.getColumnSearchProps('department_id'),
+            },
+            {
+                title:'Working Time',
+                dataIndex:'workingtime',
+                key:'workingtime',
+                ...this.getColumnSearchProps('workingtime'),
+            },
+            {
+                title:'Off Work Time',
+                dataIndex:'offworktime',
+                key:'offworktime',
+                ...this.getColumnSearchProps('offworktime'),
+              
+            },
+            {
+                title:'Number of late and leave early',
+                dataIndex:'numberoflateandleaveearly',
+                key:'numberoflateandleaveearly',
+                ...this.getColumnSearchProps('numberoflateandleaveearly'),
+              
+            },
+            ]}
 
     
     
@@ -29,27 +78,27 @@ export default class Attendance extends Component{
     getAttendance = async() =>{
         const result = await reqGetAttendance(); 
         if (result){
-            const attendance = result
+            const attendances = result
             this.setState({
-                attendance
+                attendances
             })
         }
     }   
     addAttendance = async () => {
-        //收集数据
-        let attendance = this.us.current.addAttendance();
+        //Collect the data
+        let attendance = this.att.current.addAttendance();
         if (this.state.attendance.attendance_id) {
           attendance.attendance_id = this.state.attendance.attendance_id;
         }
-        //   2.提交添加的请求
+        //Submit an add request
         const result = await reqAddAttendance(attendance.attendance_id); 
-        // 3.更新列表显示
+        // Update list display
         if (result) {
-            message.success(`${this.state.user.user_id?'修改':'添加'}角色成功`);
+            message.success(`The record is added successfully!`);
             this.getUsers();
             this.setState({ showStatus: 0 });
           } else {
-            message.error(`${this.state.user.user_id?'修改':'添加'}角色失败`);
+            message.error(`Record modification failed!`);
           }
           // //console.log(user);
         };
@@ -126,6 +175,9 @@ export default class Attendance extends Component{
         this.setState({ showStatus: 0 });
       };
 
+      UNSAFE_componentWillMount() {
+        this.initColumns();
+      }
       componentDidMount(){
         this.getAttendance();
       }
@@ -134,64 +186,18 @@ export default class Attendance extends Component{
 
 
     render(){
-        const{attendance,showStatus} = this.state;
+        const{attendances,showStatus} = this.state;
         const title = (
           <span>
-            <Button type="primary" onClick={() => {this.setState({ showStatus: 1, attendance: {} });}}>Create New Attendance</Button>
+            <Button type="primary" onClick={() => {this.setState({ showStatus: 1, attendance: {} });}}>Create New Recording</Button> 
           </span>
         )
-        this.columns = [
-                {
-                    title:'Attendance_id',
-                    dataIndex:'attendance_id',
-                    key:'attendance_id',
-                    ...this.getColumnSearchProps('attendance_id'),
-                },
-                {
-                    title:'Employee_id',
-                    dataIndex:'employee_id',
-                    key:'employee_id',
-                    ...this.getColumnSearchProps('employee_id'),
-                },
-                {
-                    title:'Employee_name',
-                    dataIndex:'employee_name',
-                    key:'employee_name',
-                    ...this.getColumnSearchProps('employee_name'),
-                },
-                {
-                    title:'Department_id',
-                    dataIndex:'department_id',
-                    key:'department_id',
-                    ...this.getColumnSearchProps('department_id'),
-                },
-                {
-                    title:'Working Time',
-                    dataIndex:'workingtime',
-                    key:'workingtime',
-                    ...this.getColumnSearchProps('workingtime'),
-                },
-                {
-                    title:'Off Work Time',
-                    dataIndex:'offworktime',
-                    key:'offworktime',
-                    ...this.getColumnSearchProps('offworktime'),
-                  
-                },
-                {
-                    title:'Number of late and leave early',
-                    dataIndex:'numberoflateandleaveearly',
-                    key:'numberoflateandleaveearly',
-                    ...this.getColumnSearchProps('numberoflateandleaveearly'),
-                  
-                },
-                ]
       return(
             <Card title={title}>
                 <Table
                  bordered
                  rowKey='attendance_id'
-                 dataSource={attendance}
+                 dataSource={attendances}
                  columns={this.columns}
                  pagination={{defaultPageSize: 5}}
                 />
@@ -202,7 +208,7 @@ export default class Attendance extends Component{
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >
-          <AttendanceForm ref={this.us} attendance={this.state.attendance} />
+          <AttendanceForm ref={this.att} attendance={this.state.attendance} />
         </Modal>
             </Card>
             

@@ -36,6 +36,7 @@ export default class EmployeeForm extends PureComponent {
         >
           <Input placeholder="Please enter your name"></Input>
         </Item>
+      
         {
             employee.employee_id?null:<Item
             label="Employee_id"
@@ -47,13 +48,20 @@ export default class EmployeeForm extends PureComponent {
           </Item>
         }
         <Item
+          label="Employee_gender"
+          name="Employee_gender"
+          rules={[{ required: true, message: "The employee's gender must be entered!!" }]}
+          initialValue={employee.employee_gender}
+        >
+          <Input placeholder="Please enter your gender"></Input>
+        </Item>
+        <Item
           label="Employee_phone"
           name="Employee_phone"
           rules={[{ required: true, message: "The employee's phone number must be entered!!" }]}
           initialValue={employee.employee_phone}
         >
-          <Input placeholder="Please enter your phone number"
-          ></Input>
+          <Input placeholder="Please enter your phone number"></Input>
         </Item>
         <Item
           label="Employee_address"

@@ -9,7 +9,6 @@ import LinkButton from '../../components/link-button/index';
 
 export default class Employee extends Component{
 
-    
       state = {
         employees:[],//List of all employees
         employee:{},//Selected employees
@@ -20,12 +19,58 @@ export default class Employee extends Component{
 
     constructor(props) {
       super(props);
-      this.us = React.createRef();
+      this.em = React.createRef();
     }
 
-    
-    
- 
+    initColumns = () => {
+      this.columns = [
+      {
+          title:'Employee_id',
+          dataIndex:'employee_id',
+          key:'employee_id',
+          ...this.getColumnSearchProps('employee_id'),
+      },
+      {
+          title:'Employee_name',
+          dataIndex:'employee_name',
+          key:'employee_name',
+          ...this.getColumnSearchProps('employee_name'),
+      },
+      {
+          title:'Employee_gender',
+          dataIndex:'employee_gender',
+          key:'employee_gender',
+          ...this.getColumnSearchProps('employee_gender'),
+      },
+      {
+          title:'Employee_qualification',
+          dataIndex:'employee_qualification',
+          key:'employee_qualification',
+          ...this.getColumnSearchProps('employee_qualification'),
+      },
+      {
+          title:'Employee_phone',
+          dataIndex:'employee_phone',
+          key:'employee_phone',
+          ...this.getColumnSearchProps('employee_phone'),
+      },
+      {
+          title:'Employee_address',
+          dataIndex:'employee_address',
+          key:'employee_adress',
+          ...this.getColumnSearchProps('employee_address'),
+        
+      },
+      {
+        title: "Operation",
+        render: (employee) => (
+          <span>
+            <LinkButton onClick={() => this.showUpdate(employee)}>Edit</LinkButton>
+            <LinkButton onClick={() => this.deleteEmployee(employee)}>Delete</LinkButton>
+          </span>
+        ),
+      },
+      ]}
 
     getEmployees = async() =>{
         const result = await reqGetEmployees(); 
@@ -37,16 +82,17 @@ export default class Employee extends Component{
         }
     }    
 
-
     // delete employee
     deleteEmployee = (employee) => {
     Modal.confirm({
       title: `Are you sure to delete ${employee.employee_name}?`,
       onOk: async () => {
+        console.log(employee.employee_id);
         const result = await reqDeleteEmployee(employee.employee_id);
         if (result) {
-          message.success("Employee deleted successfully!!");
-          this.getEmployees();
+           message.success("Employee deleted successfully!!");
+           this.getEmployees();
+           this.setState({ showStatus: 0 });
         } else {
           message.error("Failed to delete employee!!");
         }
@@ -55,7 +101,7 @@ export default class Employee extends Component{
     };
     //update employee information
   updateEmployee = async () => {
-    let employee = this.us.current.updateEmployee();
+    let employee = this.em.current.updateEmployee();
  
     if (this.state.employee.employee_id) {
       employee.employee_id = this.state.employee.employee_id;
@@ -77,16 +123,7 @@ export default class Employee extends Component{
      this.setState({ showStatus: 1 });
    };
     
-    onRow = (employee) =>{
-        return {
-            onClick: event => {//click row
-                console.log('row onClick()',employee)
-                this.setState({employee});
-            }, 
-
-        };
-
-    }
+ 
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
           <div style={{ padding: 8 }}>
@@ -154,6 +191,10 @@ export default class Employee extends Component{
     handleCancel = () => {
         this.setState({ showStatus: 0 });
       };
+
+    UNSAFE_componentWillMount() {
+        this.initColumns();
+      }
     
     componentDidMount(){
         this.getEmployees();
@@ -162,60 +203,13 @@ export default class Employee extends Component{
 
 
     render(){
-        const{employees,employee,showStatus} = this.state;
+        const{employees,showStatus} = this.state;
         const title = (
           <span>
             <Button type="primary" onClick={() => {this.setState({ showStatus: 1, employee: {} });}}>Create Employee</Button>
           </span>
         )
-        this.columns = [
-                {
-                    title:'Employee_id',
-                    dataIndex:'employee_id',
-                    key:'employee_id',
-                    ...this.getColumnSearchProps('employee_id'),
-                },
-                {
-                    title:'Employee_name',
-                    dataIndex:'employee_name',
-                    key:'employee_name',
-                    ...this.getColumnSearchProps('employee_name'),
-                },
-                {
-                    title:'Employee_gender',
-                    dataIndex:'employee_gender',
-                    key:'employee_gender',
-                    ...this.getColumnSearchProps('employee_gender'),
-                },
-                {
-                    title:'Employee_qualification',
-                    dataIndex:'employee_qualification',
-                    key:'employee_qualification',
-                    ...this.getColumnSearchProps('employee_qualification'),
-                },
-                {
-                    title:'Employee_phone',
-                    dataIndex:'employee_phone',
-                    key:'employee_phone',
-                    ...this.getColumnSearchProps('employee_phone'),
-                },
-                {
-                    title:'Employee_address',
-                    dataIndex:'employee_address',
-                    key:'employee_adress',
-                    ...this.getColumnSearchProps('employee_address'),
-                  
-                },
-                {
-                  title: "Operation",
-                  render: () => (
-                    <span>
-                      <LinkButton onClick={() => this.showUpdate(employee)}>Edit</LinkButton>
-                      <LinkButton onClick={() => this.deleteEmployee(employee)}>Delete</LinkButton>
-                    </span>
-                  ),
-                },
-                ]
+
       return(
             <Card title={title}>
                 <Table
@@ -224,17 +218,17 @@ export default class Employee extends Component{
                  dataSource={employees}
                  columns={this.columns}
                  pagination={{defaultPageSize: 5}}
-                 rowSelection={{type:'radio',selectedRowKeys: [employee.employee_id]}}
-                 onRow={this.onRow}
+               
+               
                 />
-                              <Modal
-           title={this.state.employee.employee_id ? "Edit Employee's Information" : "Add new Employee"}
+        <Modal
+          title={this.state.employee.employee_id ? "Edit Employee's Information" : "Create new Employee"}
           visible={showStatus === 1}
           onOk={this.updateEmployee}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >
-          <EmployeeForm ref={this.us} employee={this.state.employee} />
+          <EmployeeForm ref={this.em} employee={this.state.employee} />
         </Modal>
             </Card>
             

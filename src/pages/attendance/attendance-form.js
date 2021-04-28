@@ -13,7 +13,7 @@ export default class AttendanceForm extends PureComponent {
   onValuesChange = (values) => {
     this.setState(values);
   };
-  updateEmployee = () => {
+  addAttendance = () => {
     //collect data
     const attendance = this.state;
     //Update employees list display
@@ -31,10 +31,10 @@ export default class AttendanceForm extends PureComponent {
         <Item
           label="Employee_name"
           name="Employee_name"
-          rules={[{ required: true, message: "The employee name must be entered!!" }]}
+          rules={[{ required: true, message: "The employee's name must be entered!!" }]}
           initialValue={attendance.employee_name}
         >
-          <Input placeholder="Please enter your name"></Input>
+          <Input placeholder="Please enter your id"></Input>
         </Item>
         {
             attendance.employee_id?null:<Item
@@ -47,21 +47,20 @@ export default class AttendanceForm extends PureComponent {
           </Item>
         }
         <Item
-          label="Employee_phone"
-          name="Employee_phone"
-          rules={[{ required: true, message: "The employee's phone number must be entered!!" }]}
-          initialValue={attendance.employee_phone}
+          label="Department_id"
+          name="department_id"
+          rules={[{ required: true, message: "The employee's department id number must be entered!!" }]}
+          initialValue={attendance.department_id}
         >
-          <Input placeholder="Please enter your phone number"
-          ></Input>
+          <Input placeholder="Please enter your department id"></Input>
         </Item>
         <Item
-          label="Employee_address"
-          name="Employee_address"
-          rules={[{ required: true, message: "The employee's address must be entered!!" }]}
-          initialValue={attendance.employee_address}
+          label="Working Time"
+          name="workingtime"
+          rules={[{ required: true, message: "The working Time must be entered!!" }]}
+          initialValue={attendance.workingtime}
         >
-          <Input placeholder="Please enter your address"
+          <Input placeholder="Please enter working Time"
           ></Input>
         </Item>
     
