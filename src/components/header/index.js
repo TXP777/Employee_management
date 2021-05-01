@@ -7,7 +7,7 @@ export default class Header extends Component{
             <div className="header">
                 <div className="header-top">
                     <span>Welcome,admin!</span>
-                    <a href= "  ">Exit</a>
+                    <a href= "/login">Log Out</a>
                 </div>
                 <div className="header-bottom">
                     <div className="header-bottom-left">Home Page</div>

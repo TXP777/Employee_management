@@ -91,13 +91,17 @@ export const reqUpdateUser = (user_id) =>{
 }
 
 
-export const reqAddAttendance = (attendance_id) =>{
+export const reqAddAttendance = (attendance_id,employee_id,employee_name,department_id,
+    workingtime,offworktime,numberoflateandleaveearly
+    ) =>{
     return fetch(`attendance/addAttendance`,{
         headers:{
             'Content-Type': 'application/json'
         },
         method:'post',
-        body:JSON.stringify({attendance_id:attendance_id})
+        body:JSON.stringify({attendance_id:attendance_id,employee_id:employee_id,employee_name:employee_name,
+            department_id:department_id,workingtime:workingtime,offworktime:offworktime,numberoflateandleaveearly:numberoflateandleaveearly
+        })
     }).then(res => res.json())
 }
 

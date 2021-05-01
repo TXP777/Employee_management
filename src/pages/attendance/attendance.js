@@ -14,7 +14,7 @@ export default class Attendance extends Component{
       this.att = React.createRef();
       this.state= {
         attendances:[],//List of all recordings
-        attendance:{},//List of one recording
+        attendance:{},// one recording
         searchText: '',//Enter text in search box
         searchedColumn: '',//Searched column
         showStatus: 0,//Whether to display the page
@@ -95,7 +95,10 @@ export default class Attendance extends Component{
           attendance.attendance_id = this.state.attendance.attendance_id;
         }
         //Submit an add request
-        const result = await reqAddAttendance(attendance.attendance_id); 
+        const result = await reqAddAttendance(attendance.attendance_id,attendance.employee_id,
+          attendance.employee_name,attendance.department_id,attendance.workingtime,
+          attendance.offworktime,attendance.numberoflateandleaveearly
+          ); 
         // Update list display
         if (result) {
             message.success(`The record is added successfully!`);
@@ -110,8 +113,7 @@ export default class Attendance extends Component{
           Modal.confirm({
             title: `Are you sure to delete ${attendance.employee_name}?`,
             onOk: async () => {
-              console.log(attendance.employee_id);
-              const result = await reqDeleteAttendance(attendance.employee_id);
+              const result = await reqDeleteAttendance(attendance.attendance_id);
               if (result) {
                  message.success("The recording deleted successfully!!");
                  this.getAttendance();

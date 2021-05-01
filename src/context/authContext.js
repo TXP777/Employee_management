@@ -1,4 +1,5 @@
 import React, { useState, createContext } from "react";
+import {message} from 'antd';
 import { reqLogin} from "../api/index";
 
 export const AuthContext = createContext(null);
@@ -21,6 +22,8 @@ const AuthContextProvider = (props) => {
       setToken(result.token)
       setIsAuthenticated(true);
       setUserName(username);
+    }else {
+      message.error(`Login failed!`);
     }
   };
 

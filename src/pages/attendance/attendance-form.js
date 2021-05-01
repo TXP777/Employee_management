@@ -16,7 +16,7 @@ export default class AttendanceForm extends PureComponent {
   addAttendance = () => {
     //collect data
     const attendance = this.state;
-    //Update employees list display
+    //Update list display
     return attendance;
 
   };
@@ -28,27 +28,35 @@ export default class AttendanceForm extends PureComponent {
     const attendance = this.props.attendance
     return (
       <Form {...formItemLayout} onValuesChange={this.onValuesChange}>
+          <Item
+            label="Attendance_id"
+            name="attendance_id"
+            rules={[{ required: true, message: "The Attendance ID must be entered!!" }]}
+            initialValue={attendance.attendance_id}
+          >
+            <Input placeholder="Please enter your attendance_id"></Input>
+          </Item>
         <Item
-          label="Employee_name"
-          name="Employee_name"
-          rules={[{ required: true, message: "The employee's name must be entered!!" }]}
-          initialValue={attendance.employee_name}
+          label="Employee_id"
+          name="employee_id"
+          rules={[{ required: true, message: "The employee's id must be entered!!" }]}
+          initialValue={attendance.employee_id}
         >
           <Input placeholder="Please enter your id"></Input>
         </Item>
-        {
-            attendance.employee_id?null:<Item
-            label="Employee_id"
-            name="Employee_id"
-            rules={[{ required: true, message: "The employee ID must be entered!!" }]}
-            initialValue={attendance.employee_id}
+        
+          <Item
+            label='Employee_name'
+            name='employee_name'
+            rules={[{ required: true, message: "The employee name must be entered!!" }]}
+            initialValue={attendance.employee_name}
           >
-            <Input placeholder="Please enter your Id"></Input>
+            <Input placeholder="Please enter your name"></Input>
           </Item>
-        }
+        
         <Item
-          label="Department_id"
-          name="department_id"
+          label='Department_id'
+          name='department_id'
           rules={[{ required: true, message: "The employee's department id number must be entered!!" }]}
           initialValue={attendance.department_id}
         >
@@ -63,8 +71,15 @@ export default class AttendanceForm extends PureComponent {
           <Input placeholder="Please enter working Time"
           ></Input>
         </Item>
-    
-    
+        <Item
+          label="Number of late and leave early"
+          name="numberoflateandleaveearly"
+          rules={[{ required: true, message: "This recording must be entered!!" }]}
+          initialValue={attendance.numberoflateandleaveearly}
+        >
+          <Input placeholder="Please enter the number"
+          ></Input>
+        </Item>
       </Form>
     );
   }

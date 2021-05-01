@@ -87,7 +87,7 @@ export default class Employee extends Component{
     Modal.confirm({
       title: `Are you sure to delete ${employee.employee_name}?`,
       onOk: async () => {
-        console.log(employee.employee_id);
+        
         const result = await reqDeleteEmployee(employee.employee_id);
         if (result) {
            message.success("Employee deleted successfully!!");
