@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Table, Input, Button, Modal,Space,Card,message} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import {reqGetUsers,reqUpdateUser,reqDeleteUser} from '../../api/index';
+import {reqGetUsers,reqAddOrUpdateUser,reqDeleteUser} from '../../api/index';
 import LinkButton from '../../components/link-button/index';
 import UserForm from '../system/user-form';
 
@@ -19,6 +19,52 @@ export default class System extends Component {
       showStatus: 0,
       
     };
+  }
+  initColumns = () => {
+    this.columns = [
+      {
+        title: 'UserId',
+        dataIndex: 'user_id',
+        key: 'user_id',
+        width: '15%',
+        ...this.getColumnSearchProps('user_id'),
+        
+      },
+      {
+        title: 'Username',
+        dataIndex: 'username',
+        key: 'username',
+        width: '20%',
+        ...this.getColumnSearchProps('username'),
+        
+      },
+      {
+        title: 'Password',
+        dataIndex: 'password',
+        key: 'password',
+        width: '20%',
+        ...this.getColumnSearchProps('password'),
+        
+      },
+      {
+        title: 'EmployeeId',
+        dataIndex: 'employee_id',
+        key: 'employee_id',
+        width: '15%',
+        ...this.getColumnSearchProps('employee_id'),
+      
+      },
+      {
+        title: "Operation",
+        render: (user) => (
+          <span>
+            <LinkButton onClick={() => this.showUpdate(user)}>Edit</LinkButton>&nbsp;&nbsp;
+            <LinkButton onClick={() => this.deleteUser(user)}>Delete</LinkButton>
+          </span>
+        ),
+      },
+     
+    ];
   }
 
   onRow= (user) => {
@@ -112,28 +158,30 @@ export default class System extends Component {
         if (result) {
           message.success("User deleted successfully!!");
           this.getUsers();
+          this.setState({ showStatus: 0 });
         } else {
           message.error("Failed to delete user!!");
         }
       },
     });
   };
-  updateUsers = async () => {
+
+  addOrUpdateUsers = async () => {
     //collect user
-    let user = this.us.current.updateUser();
+    let user = this.us.current.addOrUpdateUser();
     user.createtime = Date.now();
     if (this.state.user.user_id) {
       user.user_id = this.state.user.user_id;
     }
     //submit a request
-    const result = await reqUpdateUser(user.user_id);
+    const result = await reqAddOrUpdateUser(user.user_id);
     //update data
     if (result) {
-      message.success(`The information has been modified successfully!`);
+      message.success("The information has been modified successfully!");
       this.getUsers();
       this.setState({ showStatus: 0 });
     } else {
-      message.error(`The information modification failed!`);
+      message.error("The information modification failed!");
     }
     // //console.log(user);
   };
@@ -142,10 +190,18 @@ export default class System extends Component {
     this.setState({ showStatus: 1 });
   };
 
+UNSAFE_componentWillMount(){
+    this.initColumns();
+}
+
 componentDidMount(){
   this.getUsers();
 
 } 
+
+
+
+
 handleCancel = () => {
   this.setState({ showStatus: 0 });
 };
@@ -162,60 +218,17 @@ handleCancel = () => {
       <Button type="primary" disabled={!user.user_id}>Set User Permissions</Button>
       </span>
     );
-    const columns = [
-      {
-        title: 'UserId',
-        dataIndex: 'user_id',
-        key: 'user_id',
-        width: '15%',
-        ...this.getColumnSearchProps('user_id'),
-        
-      },
-      {
-        title: 'Username',
-        dataIndex: 'username',
-        key: 'username',
-        width: '20%',
-        ...this.getColumnSearchProps('username'),
-        
-      },
-      {
-        title: 'Password',
-        dataIndex: 'password',
-        key: 'password',
-        width: '20%',
-        ...this.getColumnSearchProps('password'),
-        
-      },
-      {
-        title: 'EmployeeId',
-        dataIndex: 'employee_id',
-        key: 'employee_id',
-        width: '15%',
-        ...this.getColumnSearchProps('employee_id'),
-      
-      },
-      {
-        title: "Operation",
-        render: (user) => (
-          <span>
-            <LinkButton onClick={() => this.showUpdate(user)}>Edit</LinkButton>
-            <LinkButton onClick={() => this.deleteUser(user)}>Delete</LinkButton>
-          </span>
-        ),
-      },
-     
-    ];
+  
  
     return (
            <Card title={title}>
            <Table 
            rowKey="user_id"
            pagination={{pageSize: 5,}}
-           columns={columns} 
+           columns={this.columns} 
            dataSource={users} 
            rowSelection={{ type: "radio", selectedRowKeys: [user.user_id],onSelect:(user)=>{this.setState({user:user})} }} //Set radio
-          onRow={this.onRow}
+         
            bordered
            />
                    <Modal

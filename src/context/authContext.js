@@ -23,7 +23,7 @@ const AuthContextProvider = (props) => {
       setIsAuthenticated(true);
       setUserName(username);
     }else {
-      message.error(`Login failed!`);
+      message.error("Wrong username or password!");
     }
   };
 

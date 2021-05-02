@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Card,Button,Table,Input, Space,Modal,message} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import {reqGetEmployees,reqUpdateEmployee,reqDeleteEmployee} from '../../api/index';
+import {reqGetEmployees,reqAddOrUpdateEmployee,reqDeleteEmployee} from '../../api/index';
 import EmployeeForm from '../employee/employee-form';
 import LinkButton from '../../components/link-button/index';
 
@@ -100,14 +100,14 @@ export default class Employee extends Component{
     });
     };
     //update employee information
-  updateEmployees = async () => {
-    let employee = this.em.current.updateEmployee();
+  addOrUpdateEmployees = async () => {
+    let employee = this.em.current.addOrUpdateEmployee();
  
     if (this.state.employee.employee_id) {
       employee.employee_id = this.state.employee.employee_id;
     }
    
-    const result = await reqUpdateEmployee(employee.employee_id);
+    const result = await reqAddOrUpdateEmployee(employee.employee_id);
     
     if (result) {
       message.success("Update Completed!");

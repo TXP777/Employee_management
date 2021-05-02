@@ -13,7 +13,7 @@ export default class EmployeeForm extends PureComponent {
   onValuesChange = (values) => {
     this.setState(values);
   };
-  updateEmployee = () => {
+  addOrUpdateEmployee = () => {
     //collect data
     const employee = this.state;
     //Update employees list display

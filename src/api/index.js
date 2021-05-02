@@ -60,35 +60,38 @@ export const reqDeleteAttendance = (attendance_id) =>{
 }
 
 
-export const reqAddEmployee = () =>{
+export const reqAddOrUpdateEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address
+    ) =>{
     return fetch(`employees/addEmployee`,{
         headers:{
             'Content-Type': 'application/json'
         },
         method:'post',
-        body:JSON.stringify({})
+        body:JSON.stringify({employee_id:employee_id,employee_name:employee_name,
+            employee_gender:employee_gender,employee_qualification:employee_qualification,employee_phone:employee_phone,employee_address:employee_address})
     }).then(res => res.json())
 }
-export const reqUpdateEmployee = (employee_id) =>{
-    return fetch(`employees/${employee_id}/update`,{
+export const reqAddOrUpdateUser = (user_id,employee_id,username,password
+    ) =>{
+    return fetch(`users/register`,{
         headers:{
             'Content-Type': 'application/json'
         },
-        method:'put',
-        body:JSON.stringify({employee_id:employee_id})
+        method:'post',
+        body:JSON.stringify({user_id:user_id,employee_id:employee_id,username:username,password:password})
     }).then(res => res.json())
 }
 
 
-export const reqUpdateUser = (user_id) =>{
-    return fetch(`users/${user_id}/update`,{
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        method:'put',
-        body:JSON.stringify({user_id:user_id})
-    }).then(res => res.json())
-}
+// export const reqUpdateUser = (user_id) =>{
+//     return fetch(`users/${user_id}/update`,{
+//         headers:{
+//             'Content-Type': 'application/json'
+//         },
+//         method:'put',
+//         body:JSON.stringify({user_id:user_id})
+//     }).then(res => res.json())
+// }
 
 
 export const reqAddAttendance = (attendance_id,employee_id,employee_name,department_id,

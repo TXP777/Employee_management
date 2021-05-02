@@ -72,6 +72,15 @@ export default class AttendanceForm extends PureComponent {
           ></Input>
         </Item>
         <Item
+          label="Offworktime"
+          name="offworktime"
+          rules={[{ required: true, message: "The offworktime must be entered!!" }]}
+          initialValue={attendance.offworktime}
+        >
+          <Input placeholder="Please enter the offworktime"
+          ></Input>
+        </Item>
+        <Item
           label="Number of late and leave early"
           name="numberoflateandleaveearly"
           rules={[{ required: true, message: "This recording must be entered!!" }]}

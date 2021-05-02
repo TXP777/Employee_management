@@ -6,14 +6,13 @@ const Item = Form.Item;
 
 export default class UserForm extends PureComponent {
   static propTypes = {
-    roles: PropTypes.array.isRequired,
     user: PropTypes.object,
   };
   state = {};
   onValuesChange = (values) => {
     this.setState(values);
   };
-  updateUser = () => {
+  addOrUpdateUser = () => {
     //collect data
     const user = this.state;
     // console.log(user);

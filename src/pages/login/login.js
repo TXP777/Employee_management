@@ -58,7 +58,7 @@ const LoginPage = props => {
                       name="username"
                       rules={[
                         {required: true, message: 'Please input your Username!',},
-                        { min:2, message: 'User name at least two digits!',},
+                        { min:2, message: 'User name at least 2 digits!',},
                         { max:12, message: 'User name up to 12 digits!',},
                         { pattern: /^[a-zA-Z0-9_]+$/, message: 'Username must be in English, composed of numbers or underscores!',},
                       ]} 
@@ -69,7 +69,7 @@ const LoginPage = props => {
                       name="password" 
                       rules={[
                         { required: true, message: 'Please input your Password!',},
-                        { min:2, message: 'Password at least two digits!',},
+                        { min:2, message: 'Password at least 2 digits!',},
                         { max:12, message: 'Password up to 12 digits!',},
                         { pattern: /^[a-zA-Z0-9_]+$/, message: 'Password must be in English, composed of numbers or underscores!',},
                         {
@@ -90,9 +90,7 @@ const LoginPage = props => {
                       <Form.Item name="remember" valuePropName="checked" noStyle>
                         <Checkbox>Remember me</Checkbox>
                       </Form.Item>
-                      <a className="login-form-forgot" href="true">
-                        Forgot password
-                      </a>
+                  
                     </Form.Item>
 
                     <Form.Item>
