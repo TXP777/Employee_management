@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/Employee_management/static/css/main.215ce955.chunk.css",
+    "main.js": "/Employee_management/static/js/main.c0c1e5d7.chunk.js",
+    "main.js.map": "/Employee_management/static/js/main.c0c1e5d7.chunk.js.map",
+    "runtime-main.js": "/Employee_management/static/js/runtime-main.ae826ad4.js",
+    "runtime-main.js.map": "/Employee_management/static/js/runtime-main.ae826ad4.js.map",
+    "static/css/2.ddc5eb99.chunk.css": "/Employee_management/static/css/2.ddc5eb99.chunk.css",
+    "static/js/2.344f05cd.chunk.js": "/Employee_management/static/js/2.344f05cd.chunk.js",
+    "static/js/2.344f05cd.chunk.js.map": "/Employee_management/static/js/2.344f05cd.chunk.js.map",
+    "index.html": "/Employee_management/index.html",
+    "static/css/2.ddc5eb99.chunk.css.map": "/Employee_management/static/css/2.ddc5eb99.chunk.css.map",
+    "static/css/main.215ce955.chunk.css.map": "/Employee_management/static/css/main.215ce955.chunk.css.map",
+    "static/js/2.344f05cd.chunk.js.LICENSE.txt": "/Employee_management/static/js/2.344f05cd.chunk.js.LICENSE.txt",
+    "static/media/login.less": "/Employee_management/static/media/bg.6f67eda0.jpg",
+    "static/media/logo.80da78a9.jpg": "/Employee_management/static/media/logo.80da78a9.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ae826ad4.js",
+    "static/css/2.ddc5eb99.chunk.css",
+    "static/js/2.344f05cd.chunk.js",
+    "static/css/main.215ce955.chunk.css",
+    "static/js/main.c0c1e5d7.chunk.js"
+  ]
+}
