@@ -224,7 +224,7 @@ export default class Attendance extends Component{
                  pagination={{defaultPageSize: 5}}
                 />
                               <Modal
-           title={this.state.attendance.attendance_id ? "Add New Recording" : "Add new Employee"}
+           title={"Add New Recording"}
           visible={showStatus === 1}
           onOk={this.addAttendances}
           onCancel={this.handleCancel}

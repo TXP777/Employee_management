@@ -107,7 +107,8 @@ export default class Employee extends Component{
       employee.employee_id = this.state.employee.employee_id;
     }
    
-    const result = await reqAddOrUpdateEmployee(employee.employee_id);
+    const result = await reqAddOrUpdateEmployee(employee.employee_id,employee.employee_name,employee.employee_gender,
+      employee.employee_qualification,employee.employee_phone,employee.employee_address);
     
     if (result) {
       message.success("Update Completed!");
@@ -224,7 +225,7 @@ export default class Employee extends Component{
         <Modal
           title={this.state.employee.employee_id ? "Edit Employee's Information" : "Create new Employee"}
           visible={showStatus === 1}
-          onOk={this.updateEmployees}
+          onOk={this.addOrUpdateEmployees}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >

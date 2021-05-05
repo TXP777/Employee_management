@@ -30,6 +30,14 @@ export default class UserForm extends PureComponent {
     return (
       <Form {...formItemLayout} onValuesChange={this.onValuesChange}>
         <Item
+          label="UserId"
+          name="user_id"
+          rules={[{ required: true, message: "The user id must be enter!" }]}
+          initialValue={user.user_id}
+        >
+          <Input placeholder="Please enter the username"></Input>
+        </Item>
+        <Item
           label="Username"
           name="username"
           rules={[{ required: true, message: "The username must be enter!" }]}

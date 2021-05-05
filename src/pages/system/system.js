@@ -169,15 +169,15 @@ export default class System extends Component {
   addOrUpdateUsers = async () => {
     //collect user
     let user = this.us.current.addOrUpdateUser();
-    user.createtime = Date.now();
+    
     if (this.state.user.user_id) {
       user.user_id = this.state.user.user_id;
     }
     //submit a request
-    const result = await reqAddOrUpdateUser(user.user_id);
+    const result = await reqAddOrUpdateUser(user.user_id,user.employee_id,user.username,user.password);
     //update data
     if (result) {
-      message.success("The information has been modified successfully!");
+      message.success("Add successfully!");
       this.getUsers();
       this.setState({ showStatus: 0 });
     } else {
@@ -234,7 +234,7 @@ handleCancel = () => {
                    <Modal
           title={this.state.user.user_id ? "Edit User" : "Create User"}
           visible={showStatus === 1}
-          onOk={this.updateUsers}
+          onOk={this.addOrUpdateUsers}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >

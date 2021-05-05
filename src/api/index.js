@@ -8,7 +8,7 @@ export const reqLogin = (username,password) =>{
  }).then(res => res.json())
 }
 export const reqGetEmployees = () =>{
-    return fetch(`employees`,{
+    return fetch(`employee`,{
         headers:{
             'Content-Type': 'application/json'
         },
@@ -32,7 +32,7 @@ export const reqGetAttendance = () =>{
     }).then(res => res.json())
 }
 export const reqDeleteEmployee = (employee_id) =>{
-    return fetch(`employees/${employee_id}/delete`,{
+    return fetch(`employee/${employee_id}/delete`,{
         headers:{
             'Content-Type': 'application/json'
         },
@@ -60,9 +60,8 @@ export const reqDeleteAttendance = (attendance_id) =>{
 }
 
 
-export const reqAddOrUpdateEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address
-    ) =>{
-    return fetch(`employees/addEmployee`,{
+export const reqAddOrUpdateEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address) =>{
+    return fetch(`employee/addEmployee`,{
         headers:{
             'Content-Type': 'application/json'
         },
