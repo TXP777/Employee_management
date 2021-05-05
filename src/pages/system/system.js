@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Table, Input, Button, Modal,Space,Card,message} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import {reqGetUsers,reqAddOrUpdateUser,reqDeleteUser} from '../../api/index';
+import {reqGetUsers,reqAddUser,reqUpdateUser,reqDeleteUser} from '../../api/index';
 import LinkButton from '../../components/link-button/index';
 import UserForm from '../system/user-form';
 
@@ -166,7 +166,7 @@ export default class System extends Component {
     });
   };
 
-  addOrUpdateUsers = async () => {
+  addUser = async () => {
     //collect user
     let user = this.us.current.addOrUpdateUser();
     
@@ -174,7 +174,26 @@ export default class System extends Component {
       user.user_id = this.state.user.user_id;
     }
     //submit a request
-    const result = await reqAddOrUpdateUser(user.user_id,user.employee_id,user.username,user.password);
+    const result = await reqAddUser(user.user_id,user.employee_id,user.username,user.password);
+    //update data
+    if (result) {
+      message.success("Add successfully!");
+      this.getUsers();
+      this.setState({ showStatus: 0 });
+    } else {
+      message.error("The information modification failed!");
+    }
+    // //console.log(user);
+  };
+  updateUser = async () => {
+    //collect user
+    let user = this.us.current.addOrUpdateUser();
+    
+    if (this.state.user.user_id) {
+      user.user_id = this.state.user.user_id;
+    }
+    //submit a request
+    const result = await reqUpdateUser(user.user_id,user.employee_id,user.username,user.password);
     //update data
     if (result) {
       message.success("Add successfully!");
@@ -234,7 +253,7 @@ handleCancel = () => {
                    <Modal
           title={this.state.user.user_id ? "Edit User" : "Create User"}
           visible={showStatus === 1}
-          onOk={this.addOrUpdateUsers}
+          onOk={this.state.user.user_id ? this.updateUser : this.addUser}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >

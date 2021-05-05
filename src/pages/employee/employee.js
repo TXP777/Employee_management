@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Card,Button,Table,Input, Space,Modal,message} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import {reqGetEmployees,reqAddOrUpdateEmployee,reqDeleteEmployee} from '../../api/index';
+import {reqGetEmployees,reqAddEmployee,reqUpdateEmployee,reqDeleteEmployee} from '../../api/index';
 import EmployeeForm from '../employee/employee-form';
 import LinkButton from '../../components/link-button/index';
 
@@ -23,12 +23,7 @@ export default class Employee extends Component{
 
     initColumns = () => {
       this.columns = [
-      {
-          title:'Employee_id',
-          dataIndex:'employee_id',
-          key:'employee_id',
-          ...this.getColumnSearchProps('employee_id'),
-      },
+ 
       {
           title:'Employee_name',
           dataIndex:'employee_name',
@@ -100,22 +95,40 @@ export default class Employee extends Component{
     });
     };
     //update employee information
-  addOrUpdateEmployees = async () => {
+  addEmployees = async () => {
     let employee = this.em.current.addOrUpdateEmployee();
- 
+    //console.log(employee);
+    if (this.state.employee.employee_id) {
+      employee.employee_id = this.state.employee.employee_id;
+    }
+    const result = await reqAddEmployee(employee.employee_id,employee.employee_name,employee.employee_gender,
+      employee.employee_qualification,employee.employee_phone,employee.employee_address);
+    console.log(result);
+    if (result) {
+      message.success(`Add employee successfully!`);
+      this.getEmployees();
+      this.setState({ showStatus: 0 });
+    } else {
+      message.error(`Add employee failed!`);
+    }
+    // //console.log();
+   };
+   updateEmployees = async () => {
+    let employee = this.em.current.addOrUpdateEmployee();
+    //console.log(employee);
     if (this.state.employee.employee_id) {
       employee.employee_id = this.state.employee.employee_id;
     }
    
-    const result = await reqAddOrUpdateEmployee(employee.employee_id,employee.employee_name,employee.employee_gender,
+    const result = await reqUpdateEmployee(employee.employee_id,employee.employee_name,employee.employee_gender,
       employee.employee_qualification,employee.employee_phone,employee.employee_address);
-    
+    console.log(result);
     if (result) {
-      message.success("Update Completed!");
+      message.success(`Add employee successfully!`);
       this.getEmployees();
       this.setState({ showStatus: 0 });
     } else {
-      message.error("Update Failed!");
+      message.error(`Add employee failed!`);
     }
     // //console.log();
    };
@@ -225,7 +238,7 @@ export default class Employee extends Component{
         <Modal
           title={this.state.employee.employee_id ? "Edit Employee's Information" : "Create new Employee"}
           visible={showStatus === 1}
-          onOk={this.addOrUpdateEmployees}
+          onOk={this.state.employee.employee_id ? this.updateEmployees : this.addEmployees}
           onCancel={this.handleCancel}
           destroyOnClose={true}
         >

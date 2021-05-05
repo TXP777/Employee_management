@@ -29,7 +29,7 @@ export default class UserForm extends PureComponent {
     // console.log()
     return (
       <Form {...formItemLayout} onValuesChange={this.onValuesChange}>
-        <Item
+        {user.user_id?null:<Item
           label="UserId"
           name="user_id"
           rules={[{ required: true, message: "The user id must be enter!" }]}
@@ -37,6 +37,7 @@ export default class UserForm extends PureComponent {
         >
           <Input placeholder="Please enter the username"></Input>
         </Item>
+       }
         <Item
           label="Username"
           name="username"

@@ -28,7 +28,7 @@ export default class EmployeeForm extends PureComponent {
     const employee = this.props.employee
     return (
       <Form {...formItemLayout} onValuesChange={this.onValuesChange}>
-        <Item
+        {employee.employee_id?null:<Item
             label="Employee_id"
             name="employee_id"
             rules={[{ required: true, message: "The employee ID must be entered!!" }]}
@@ -36,6 +36,7 @@ export default class EmployeeForm extends PureComponent {
           >
             <Input placeholder="Please enter your Id"></Input>
         </Item>
+        }
         <Item
           label="Employee_name"
           name="employee_name"

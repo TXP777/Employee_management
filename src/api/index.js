@@ -59,18 +59,42 @@ export const reqDeleteAttendance = (attendance_id) =>{
     }).then(res => res.json())
 }
 
-
-export const reqAddOrUpdateEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address) =>{
+export const reqAddEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address
+    ) =>{
     return fetch(`employee/addEmployee`,{
         headers:{
             'Content-Type': 'application/json'
         },
         method:'post',
         body:JSON.stringify({employee_id:employee_id,employee_name:employee_name,
-            employee_gender:employee_gender,employee_qualification:employee_qualification,employee_phone:employee_phone,employee_address:employee_address})
+    employee_gender:employee_gender,employee_qualification:employee_qualification,employee_phone:employee_phone,employee_address:employee_address})
     }).then(res => res.json())
 }
-export const reqAddOrUpdateUser = (user_id,employee_id,username,password
+export const reqUpdateEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address
+    ) =>{
+    return fetch(`employee/update`,{
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        method:'post',
+        body:JSON.stringify({employee_id:employee_id,employee_name:employee_name,
+    employee_gender:employee_gender,employee_qualification:employee_qualification,employee_phone:employee_phone,employee_address:employee_address})
+    }).then(res => res.json())
+}
+
+// export const reqAddOrUpdateEmployee = (employee_id,employee_name,employee_gender,employee_qualification,employee_phone,employee_address) =>{
+    
+//     return fetch(employee_id?'employee/update':'employee/addEmployee',{
+//         headers:{
+//             'Content-Type': 'application/json'
+//         },
+//         method:'post',
+    
+//         body:JSON.stringify({employee_id:employee_id,employee_name:employee_name,
+//             employee_gender:employee_gender,employee_qualification:employee_qualification,employee_phone:employee_phone,employee_address:employee_address})
+//     }).then(res => res.json())
+//}
+export const reqAddUser = (user_id,employee_id,username,password
     ) =>{
     return fetch(`users/register`,{
         headers:{
@@ -80,6 +104,26 @@ export const reqAddOrUpdateUser = (user_id,employee_id,username,password
         body:JSON.stringify({user_id:user_id,employee_id:employee_id,username:username,password:password})
     }).then(res => res.json())
 }
+export const reqUpdateUser = (user_id,employee_id,username,password
+    ) =>{
+    return fetch(`users/update`,{
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        method:'post',
+        body:JSON.stringify({user_id:user_id,employee_id:employee_id,username:username,password:password})
+    }).then(res => res.json())
+}
+// export const reqAddOrUpdateUser = (user_id,employee_id,username,password
+//     ) =>{
+//     return fetch(`users/register`,{
+//         headers:{
+//             'Content-Type': 'application/json'
+//         },
+//         method:'post',
+//         body:JSON.stringify({user_id:user_id,employee_id:employee_id,username:username,password:password})
+//     }).then(res => res.json())
+// }
 
 
 // export const reqUpdateUser = (user_id) =>{
